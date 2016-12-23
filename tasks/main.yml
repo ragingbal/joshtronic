@@ -1,0 +1,72 @@
+---
+# Include OS-specific installation tasks.
+
+- name: install base components
+  include: setup-Debian.yml
+  tags:
+    - install
+
+- file: path=/tmp/somelog.txt state=touch
+
+- name: Get CPU info
+  shell: cat /proc/cpuinfo >> somelog.txt
+  tags:
+    - test_instance
+
+- name: Run CPU Test
+  shell: sysbench --test=cpu run >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- shell: sysbench --test=memory run >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- shell: sysbench --test=memory --memory-oper=write run >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- shell: sysbench --test=fileio prepare >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- name: fileio test
+  shell: sysbench --test=fileio --file-test-mode=rndrw run >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- name: clean up fileio test
+  shell: sysbench --test=fileio cleanup 
+  tags:
+    - test_instance
+
+- name: create db for test
+  shell: mysql -uroot -e "CREATE DATABASE sbtest;"
+  tags:
+    - test_instance
+
+- name: test mysql
+  shell: sysbench --test=oltp --oltp-table-size=1000000 --mysql-user=root prepare >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- name: test mysql
+  shell: sysbench --test=oltp --oltp-table-size=1000000 --mysql-user=root run >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- name: cleanup database
+  shell: sysbench --test=oltp --oltp-table-size=1000000 --mysql-user=root cleanup 
+  tags:
+    - test_instance
+
+- shell: ab -kc 1000 -n 10000 http://127.0.0.1/ >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+- shell: speedtest-cli --server=7340 > speedtest.log >> /tmp/somelog.txt
+  tags:
+    - test_instance
+
+
+

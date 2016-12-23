@@ -1,0 +1,20 @@
+---
+
+
+- name: Install packages required to build run tests
+  apt: "name={{ item }} state=present update_cache=yes"
+  with_items:
+    - apache2
+    - sysbench
+    - python-pip
+    - mysql-common
+    - mysql-server
+
+- name: Ensure MySQL Python libraries are installed.
+  apt: "name=python-mysqldb state=installed"
+
+- name: install speedtest-cli
+  pip: name=speedtest-cli state=present
+
+
+

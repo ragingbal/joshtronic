@@ -1,0 +1,9 @@
+---
+# This playbook deploys a base installation of Oracle Java 8
+
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  roles:
+    - joshtronic

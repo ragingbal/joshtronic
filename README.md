@@ -1,5 +1,5 @@
 # joshtronic
-An ansible script to run tests on Cloud Provider instances based on the IMHO excellent framework provided by @Joshtronic in his article https://joshtronic.com/2016/12/18/8gb-showdown-linode-digitalocean-lightsail-vultr/ 
+An ansible script to run tests on Cloud Provider instances based on the IMHO excellent framework provided by  [@joshtronic](https://twitter.com/joshtronic) in his article https://joshtronic.com/2016/12/18/8gb-showdown-linode-digitalocean-lightsail-vultr/ 
 
 ## Background
 In order to run the script the following are requirements
